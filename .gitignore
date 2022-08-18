@@ -1,0 +1,12 @@
+/**/__pycache__
+output/**
+data/**
+
+
+# singularity file is too big for github
+*.sif
+
+
+# keep .gitkeep, for keeping the folder
+!data/.gitkeep
+!output/.gitkeep

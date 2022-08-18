@@ -1,0 +1,11 @@
+Bootstrap: docker
+From: tensorflow/tensorflow:latest-gpu
+
+%files
+    ./requirements.txt
+
+%post
+    apt-get -y update
+    apt-get -y install
+    apt-get install -y libcairo2
+    pip install -r requirements.txt
