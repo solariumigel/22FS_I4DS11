@@ -6,7 +6,7 @@ from tensorflow.keras.layers import Dense, Dropout, Flatten, Input, Lambda
 from tensorflow.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.keras.layers import Concatenate
 
-from neuralNetwork.aparent_losses import *
+from neuralNetwork.legacy.aparent_losses import *
 
 def load_aparent_model(batch_size, use_sample_weights=False) :
     

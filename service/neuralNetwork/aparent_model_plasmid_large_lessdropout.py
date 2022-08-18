@@ -6,8 +6,6 @@ from tensorflow.keras.layers import Dense, Dropout, Flatten, Input, Lambda
 from tensorflow.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.keras.layers import Concatenate
 
-from neuralNetwork.aparent_losses import *
-
 def load_aparent_model_Plasmid(seq_length):
     #APARENT parameters
     seq_input_shape = (seq_length, 4, 1)
@@ -20,7 +18,7 @@ def load_aparent_model_Plasmid(seq_length):
     layer_1 = Conv2D(96, (8, 4), padding='valid', activation='relu')
     layer_1_pool = MaxPooling2D(pool_size=(2, 1))
     layer_2 = Conv2D(128, (6, 1), padding='valid', activation='relu')
-    layer_dense = Dense(512, activation='relu')#(Concatenate()([Flatten()(layer_2), distal_pas_input]))
+    layer_dense = Dense(512, activation='relu')
     layer_drop = Dropout(0.1)
     layer_dense2 = Dense(256, activation='relu')
     layer_drop2 = Dropout(0.1)
@@ -48,8 +46,6 @@ def load_aparent_model_Plasmid(seq_length):
                 )
 
     
-    #Plasmid model definition
-
     #Inputs
     seq_input = Input(shape=seq_input_shape)
     lib_input = Input(shape=lib_input_shape)
@@ -85,7 +81,7 @@ def load_aparent_model_Plasmid_withoutLibrary(seq_length):
     layer_1 = Conv2D(96, (8, 4), padding='valid', activation='relu')
     layer_1_pool = MaxPooling2D(pool_size=(2, 1))
     layer_2 = Conv2D(128, (6, 1), padding='valid', activation='relu')
-    layer_dense = Dense(512, activation='relu')#(Concatenate()([Flatten()(layer_2), distal_pas_input]))
+    layer_dense = Dense(512, activation='relu')
     layer_drop = Dropout(0.1)
     layer_dense2 = Dense(256, activation='relu')
     layer_drop2 = Dropout(0.1)
@@ -113,8 +109,6 @@ def load_aparent_model_Plasmid_withoutLibrary(seq_length):
                 )
 
     
-    #Plasmid model definition
-
     #Inputs
     seq_input = Input(shape=seq_input_shape)
     distal_pas_input = Input(shape=distal_pas_shape)

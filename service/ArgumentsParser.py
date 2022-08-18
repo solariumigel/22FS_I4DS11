@@ -7,9 +7,12 @@ def getParsedArguments():
 
     # Adding optional argument
     parser.add_argument("-b", "--basePath", help = "basePath")
-    parser.add_argument("-d", "--dataPath", help = 'path to data directory, default {basePath}/data')
-    parser.add_argument("-o", "--output", help = "Output directory, default {basePath}/output")
+    parser.add_argument("-d", "--dataPath", help = 'path to data directory, default: {basePath}/data')
+    parser.add_argument("-o", "--output", help = "Output directory, default: {basePath}/output")
     parser.add_argument("-s", "--sampleSize", help = "Samplesize")
+    parser.add_argument("-f", "--filename", help = "Filename, optional")
+    parser.add_argument("-m", "--modelVersion", help = "modelVersion, default: aparent")
+    parser.add_argument("-dv", "--dataVersion", help = "dataVersion, default: 1")
 
     # Read arguments from command line
     args = parser.parse_args()
@@ -27,6 +30,18 @@ def getParsedArguments():
     if args.output:
         outputPath = os.path.join('', args.output)
 
+    filename = ''
+    if args.filename:
+        filename = args.filename
+
+    modelVersion = 'aparent'
+    if args.modelVersion:
+        modelVersion = args.modelVersion
+
+    dataVersion = '1'
+    if args.dataVersion:
+        dataVersion = args.dataVersion
+
     sampleSize = None
     if args.sampleSize and args.sampleSize.isnumeric():
         sampleSize = int(args.sampleSize)
@@ -35,4 +50,7 @@ def getParsedArguments():
     print("BasePath: " + basePath)
     print("OutputPath: " + outputPath)
     print("DataPath: " + dataPath)
-    return basePath, outputPath, dataPath, sampleSize
+    print("filename: " + filename)
+    print("modelVersion: " + modelVersion)
+    print("dataVersion: " + dataVersion)
+    return basePath, outputPath, dataPath, sampleSize, filename, dataVersion, modelVersion

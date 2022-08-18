@@ -1,4 +1,3 @@
-from turtle import title
 from scipy.stats import pearsonr
 from sklearn.metrics import mean_squared_error
 from math import sqrt

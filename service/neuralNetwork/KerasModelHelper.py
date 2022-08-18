@@ -2,7 +2,7 @@ import os
 from tensorflow import keras
 from common.PositionShifter import PositionShifter
 import numpy as np
-from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
+from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping, TensorBoard
 import tensorflow as tf
 from common.PlotHelper import plotLossfunctionPerEpochs, plotScatterWithAxis
 
@@ -38,12 +38,12 @@ def LoadAndTrain(data, output_Path, model, model_prefix, model_version, data_ver
 
     opt = tf.keras.optimizers.SGD(learning_rate=0.1, decay=1e-6, momentum=0.9, nesterov=True)
 
-    # model.compile(loss=lambda true, pred: pred, optimizer=opt)
     model.compile(loss=tf.keras.losses.MeanSquaredError(), optimizer=opt)
 
     callbacks = [
         ModelCheckpoint(os.path.join(checkpoint_dir, 'weights.{epoch:02d}-{val_loss:.2f}.hdf5'), monitor='val_loss', verbose=0, save_best_only=True, save_weights_only=False, mode='auto', save_freq="epoch"),
-        EarlyStopping(monitor='val_loss', min_delta=0.0002, patience=3, verbose=0, mode='auto')
+        EarlyStopping(monitor='val_loss', min_delta=0.0002, patience=3, verbose=0, mode='auto'),
+        TensorBoard(log_dir=os.path.join(output_Path, 'Log'), histogram_freq=1),
     ]
 
     model, plasmid_hist = trainModel(data, model, epochs, callbacks, True, 20)

@@ -4,9 +4,8 @@ from common.CategoricalEncoder import CategoricalEncoder
 import numpy as np
 
 def mask_constant_sequence_regions(df, add_padding=False) :
-    df['seq_var'] = df['sequence']
     if 'mask' in df.columns:
-        df['seq_var'] = df.apply(map_mask, args={add_padding}, axis=1)
+        df['sequence'] = df.apply(map_mask, args={add_padding}, axis=1)
 
     return df
 
@@ -34,10 +33,8 @@ def map_mask(row, add_padding=False) :
     
     return seq_var
 
-def CreateDataGenerator(data, test_set_size, alignFunction=None):
+def CreateDataGenerator(data, test_set_size):
     data = mask_constant_sequence_regions(data)
-    if(alignFunction):
-        data = alignFunction(data)
 
     dataIndex = np.arange(len(data), dtype=np.int)
 
@@ -61,7 +58,7 @@ def CreateDataGenerator(data, test_set_size, alignFunction=None):
                     'id' : 'use',
                     'source_type' : 'dataframe',
                     'source' : 'df',
-                    'extractor' : lambda row, index: row['seq_var_aligned'][:193],
+                    'extractor' : lambda row, index: row['sequence'][:193],
                     'encoder' : NMerEncoder(n_mer_len=6, count_n_mers=True),
                     'sparse' : True,
                     'sparse_mode' : 'col'
@@ -70,7 +67,7 @@ def CreateDataGenerator(data, test_set_size, alignFunction=None):
                     'id' : 'cse',
                     'source_type' : 'dataframe',
                     'source' : 'df',
-                    'extractor' : lambda row, index: row['seq_var_aligned'][197:203],
+                    'extractor' : lambda row, index: row['sequence'][197:203],
                     'encoder' : NMerEncoder(n_mer_len=6, count_n_mers=True),
                     'sparse' : True,
                     'sparse_mode' : 'col'
@@ -79,7 +76,7 @@ def CreateDataGenerator(data, test_set_size, alignFunction=None):
                     'id' : 'dse',
                     'source_type' : 'dataframe',
                     'source' : 'df',
-                    'extractor' : lambda row, index: row['seq_var_aligned'][206:246],
+                    'extractor' : lambda row, index: row['sequence'][206:246],
                     'encoder' : NMerEncoder(n_mer_len=6, count_n_mers=True),
                     'sparse' : True,
                     'sparse_mode' : 'col'
@@ -88,7 +85,7 @@ def CreateDataGenerator(data, test_set_size, alignFunction=None):
                     'id' : 'fdse',
                     'source_type' : 'dataframe',
                     'source' : 'df',
-                    'extractor' : lambda row, index: row['seq_var_aligned'][246:],
+                    'extractor' : lambda row, index: row['sequence'][246:],
                     'encoder' : NMerEncoder(n_mer_len=6, count_n_mers=True),
                     'sparse' : True,
                     'sparse_mode' : 'col'
@@ -118,10 +115,8 @@ def CreateDataGenerator(data, test_set_size, alignFunction=None):
 
     return hexamer_gens
 
-def CreateDataGenerator_WithoutLibrary(data, test_set_size, alignFunction=None):
+def CreateDataGenerator_WithoutLibrary(data, test_set_size):
     data = mask_constant_sequence_regions(data)
-    if(alignFunction):
-        data = alignFunction(data)
 
     dataIndex = np.arange(len(data), dtype=np.int)
 
@@ -144,7 +139,7 @@ def CreateDataGenerator_WithoutLibrary(data, test_set_size, alignFunction=None):
                     'id' : 'use',
                     'source_type' : 'dataframe',
                     'source' : 'df',
-                    'extractor' : lambda row, index: row['seq_var_aligned'][:193],
+                    'extractor' : lambda row, index: row['sequence'][:193],
                     'encoder' : NMerEncoder(n_mer_len=6, count_n_mers=True),
                     'sparse' : True,
                     'sparse_mode' : 'col'
@@ -153,7 +148,7 @@ def CreateDataGenerator_WithoutLibrary(data, test_set_size, alignFunction=None):
                     'id' : 'cse',
                     'source_type' : 'dataframe',
                     'source' : 'df',
-                    'extractor' : lambda row, index: row['seq_var_aligned'][197:203],
+                    'extractor' : lambda row, index: row['sequence'][197:203],
                     'encoder' : NMerEncoder(n_mer_len=6, count_n_mers=True),
                     'sparse' : True,
                     'sparse_mode' : 'col'
@@ -162,7 +157,7 @@ def CreateDataGenerator_WithoutLibrary(data, test_set_size, alignFunction=None):
                     'id' : 'dse',
                     'source_type' : 'dataframe',
                     'source' : 'df',
-                    'extractor' : lambda row, index: row['seq_var_aligned'][206:246],
+                    'extractor' : lambda row, index: row['sequence'][206:246],
                     'encoder' : NMerEncoder(n_mer_len=6, count_n_mers=True),
                     'sparse' : True,
                     'sparse_mode' : 'col'
@@ -171,7 +166,7 @@ def CreateDataGenerator_WithoutLibrary(data, test_set_size, alignFunction=None):
                     'id' : 'fdse',
                     'source_type' : 'dataframe',
                     'source' : 'df',
-                    'extractor' : lambda row, index: row['seq_var_aligned'][246:],
+                    'extractor' : lambda row, index: row['sequence'][246:],
                     'encoder' : NMerEncoder(n_mer_len=6, count_n_mers=True),
                     'sparse' : True,
                     'sparse_mode' : 'col'

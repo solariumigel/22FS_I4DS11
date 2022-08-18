@@ -18,7 +18,7 @@ if [ -n "$1" ]; then
 fi    
 
 singularity exec -B $basePath:$basePath aparent.sif \
-python3 $basePath/startTrainNeuralNetworkOwn.py \
+python3 $basePath/startTrainNeuralNetwork.py \
 -b $basePath \
 -o $output \
 -s $sampleOfData \

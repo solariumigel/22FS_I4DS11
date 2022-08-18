@@ -40,7 +40,7 @@ def TrainAndPredict(data, test_set_size, outputPath, featureDefinitionFunction, 
 	if not os.path.isdir(outputPath):
 		os.makedirs(outputPath)
 
-	dataGenerator = CreateDataGeneratorFunction(data, test_set_size, align_on_cse)
+	dataGenerator = CreateDataGeneratorFunction(data, test_set_size)
 
 	X_train, y_train, X_test, y_test = featureDefinitionFunction(dataGenerator)
 
@@ -76,32 +76,6 @@ def TrainAndPredict(data, test_set_size, outputPath, featureDefinitionFunction, 
 
 	predictionFilename = basisFilename + '_predictionLogodds.png'
 	plotScatterWithAxis(logodds_test_pred, logodds_test, outputPath, predictionFilename, model_version, data_version, 'Log Odds values')
-
-def align_on_cse(df) :
-	cano_pas1 = 'AATAAA'
-	cano_pas2 = 'ATTAAA'
-
-	pas_mutex1_1 = {}
-	pas_mutex1_2 = {}
-
-	pas_mutex2_1 = {}
-
-	for pos in range(0, 6) :
-		for base in ['A', 'C', 'G', 'T'] :
-			if cano_pas1[:pos] + base + cano_pas1[pos+1:] not in pas_mutex1_1 :
-				pas_mutex1_1[cano_pas1[:pos] + base + cano_pas1[pos+1:]] = True
-			if cano_pas2[:pos] + base + cano_pas2[pos+1:] not in pas_mutex1_2 :
-				pas_mutex1_2[cano_pas2[:pos] + base + cano_pas2[pos+1:]] = True
-
-	for pos1 in range(0, 6) :
-		for pos2 in range(pos1 + 1, 6) :
-			for base1 in ['A', 'C', 'G', 'T'] :
-				for base2 in ['A', 'C', 'G', 'T'] :
-					if cano_pas1[:pos1] + base1 + cano_pas1[pos1+1:pos2] + base2 + cano_pas1[pos2+1:] not in pas_mutex2_1 :
-						pas_mutex2_1[cano_pas1[:pos1] + base1 + cano_pas1[pos1+1:pos2] + base2 + cano_pas1[pos2+1:]] = True
-
-	df['seq_var_aligned'] = df['sequence']
-	return df
 
 #Logistic regression prediction
 def get_y_pred(X, w, w_0) :
