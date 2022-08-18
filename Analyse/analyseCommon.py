@@ -71,3 +71,35 @@ def PrintLenOfDistinct(data, dupilcateColumn):
     print("all: {}".format(dataLength))
     print("Len distinct of {}: {}".format(dupilcateColumn, uniqueLength))
     print("Percent: {}%".format(uniqueLength / dataLength * 100))
+
+def getcse(cell):
+    return cell[197:203]
+
+def PlotNukleoideAroundCleavageSite(data):
+    data['cse'] = data['sequence'].apply(getcse)
+
+    data['cseA'] = data['cse'].str.count("A")
+    data['cseG'] = data['cse'].str.count("G")
+    data['cseT'] = data['cse'].str.count("T")
+    data['cseC'] = data['cse'].str.count("C")
+
+    data['ratiocseA'] = data['frequency'] * data['cseA']
+    data['ratiocseG'] = data['frequency'] * data['cseG']
+    data['ratiocseT'] = data['frequency'] * data['cseT']
+    data['ratiocseC'] = data['frequency'] * data['cseC']
+
+    plotData = [data['cseA'], data['cseG'], data['cseT'], data['cseC']]
+    fig = plt.figure(figsize =(10, 7))
+    ax = fig.add_axes([0, 0, 1, 1])
+    ax.set_xticklabels(['cseA', 'cseG',
+                        'cseT', 'cseC'])
+    # Creating plot
+    bp = ax.boxplot(plotData)
+    
+    # show plot
+    plt.show()
+
+    ScatterPlot(data, 'ratiocseA', 'frequency')
+    ScatterPlot(data, 'ratiocseG', 'frequency')
+    ScatterPlot(data, 'ratiocseT', 'frequency')
+    ScatterPlot(data, 'ratiocseC', 'frequency')
